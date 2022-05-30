@@ -4,7 +4,8 @@ package entregacommits;
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Scanner;
-
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class EntregaCommits {
 
@@ -14,14 +15,13 @@ public class EntregaCommits {
         String nombre = "javier";
         String apellidos = "Materazzi";
         String fechaNacimiento = "07/02/2001";
-        int cantidadFechas = 0;
         Persona persona = new Persona(nombre, apellidos, fechaNacimiento);
-        Persona personaAnterior = null;
-        Fecha fecha;
 
+        Fecha fecha;
+        ArrayList<Persona> lista = new ArrayList();
+        Iterator<Persona> iterador;
         personas = numeros.nextInt();
         numeros.nextLine();
-        boolean continuar = true;
 
         for (int i = 0; i < personas; i++) {
             nombre = numeros.nextLine();
@@ -30,23 +30,37 @@ public class EntregaCommits {
             try {
 
                 persona = new Persona(nombre, apellidos, fechaNacimiento);
-                if (personaAnterior != null) {
-                    if (persona.equals(personaAnterior)) {
-                        System.out.println(persona.toString() + " y " + personaAnterior.toString() + " son la misma");
-
-                    } else {
-                        System.out.println(persona.toString() + " y " + personaAnterior.toString() + " son distintas");
-
-                    }
-                    
-                }
-                personaAnterior = persona;
+                lista.add(persona);
 
             } catch (IllegalArgumentException L) {
-                System.out.println("ERROR. Procesando siguiente persona");
+                System.out.println("ERROR procesando alumno "+nombre+". Procesando siguiente alumno");
             }
 
         }
+        iterador = lista.iterator();
+        int consultas = numeros.nextInt();
+      
+
+        for (int i = 1; i <=consultas; i++) {
+            
+              numeros.nextLine();
+            String fechaDeReferencia = numeros.nextLine();
+            fecha=new Fecha(fechaDeReferencia);
+            int edad =numeros.nextInt();
+            System.out.println("CASO "+i);
+            System.out.println("----------");
+            for (int j = 0; j < lista.size(); j++) {
+                 if (lista.get(j).getEdadEnFecha(fecha)<edad) {
+                     System.out.println(lista.get(j));
+                 }
+            }
+          
+             
+             
+        }
+        lista.clear();
+
+       
     }
     
 }
