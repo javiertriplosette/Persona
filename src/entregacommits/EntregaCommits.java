@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class EntregaCommits {
 
     public static void main(String[] args) {
-  Scanner numeros = new Scanner(System.in);
+   Scanner numeros = new Scanner(System.in);
         int personas = 0;
         String nombre = "javier";
         String apellidos = "Materazzi";
@@ -25,37 +25,24 @@ public class EntregaCommits {
         for (int i = 0; i < personas; i++) {
             nombre = numeros.nextLine();
             apellidos = numeros.nextLine();
-           
-
             fechaNacimiento = numeros.nextLine();
             try {
                 persona = new Persona(nombre, apellidos, fechaNacimiento);
-                continuar = true;
-                fecha = persona.getFechaNacimiento();
-                cantidadFechas = numeros.nextInt();
-                numeros.nextLine();
-                for (int j = 0; j < cantidadFechas; j++) {
-                    String cadena = numeros.nextLine();
-                    try {
-                        fecha = new Fecha(cadena);
-                        if (persona.getEdadEnFecha( fecha) >= 0) {
-                            System.out.println(persona.getNombre() + " " + persona.getApellidos() + " tendra " + persona.getEdadEnFecha( fecha) + " anyos en fecha " + String.format( "%02d/",fecha.getDia()) +String.format( "%02d/",fecha.getMes()) +String.format("%04d",fecha.getAnyo()));
+                        
+                        if ( persona.getEdad() >= 0) {
+                            System.out.println(persona.getNombre() + " " + persona.getApellidos() + " tiene " + persona.getEdad() + " anyos a dia de hoy");
 
                         } else {
-                            System.out.println(persona.getNombre() + " " + persona.getApellidos() + " aun no ha nacido a fecha " + String.format( "%02d/",fecha.getDia()) +String.format( "%02d/",fecha.getMes()) +String.format("%04d",fecha.getAnyo()));
+                            System.out.println(persona.getNombre() + " " + persona.getApellidos() + "aun no ha nacido a dia de hoy");
 
                         }
-                    } catch (IllegalArgumentException T) {
-                        System.out.println("ERROR. Procesando siguiente fecha");
-                    }
-                }
+                    
+                
             } catch (IllegalArgumentException L) {
                 System.out.println("ERROR. Procesando siguiente persona");
             }
 
         }
-
-        
     }
     
 }
