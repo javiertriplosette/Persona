@@ -8,57 +8,51 @@ import java.util.Scanner;
 public class EntregaCommits {
 
     public static void main(String[] args) {
- Scanner numeros = new Scanner(System.in);
+  Scanner numeros = new Scanner(System.in);
+        int personas = 0;
         String nombre = "javier";
         String apellidos = "Materazzi";
         String fechaNacimiento = "07/02/2001";
+        int cantidadFechas = 0;
         Persona persona = new Persona(nombre, apellidos, fechaNacimiento);
-       
-        Fecha fecha;
-    
-       
-        int nombreApellidoFecha = numeros.nextInt();
-        int nombreApellidos = numeros.nextInt();
-        numeros.nextLine();
-        for (int i = 0; i < nombreApellidoFecha; i++) {
 
+        Fecha fecha;
+
+        personas = numeros.nextInt();
+        numeros.nextLine();
+        boolean continuar = true;
+
+        for (int i = 0; i < personas; i++) {
             nombre = numeros.nextLine();
             apellidos = numeros.nextLine();
+           
+
             fechaNacimiento = numeros.nextLine();
             try {
                 persona = new Persona(nombre, apellidos, fechaNacimiento);
+                continuar = true;
                 fecha = persona.getFechaNacimiento();
-                System.out.println("Procesado: " + persona.getNombre() + " " + persona.getApellidos() + ", nacido el " + fecha.getDia() + " de " + fecha.getMesNombre() + " de " + fecha.getAnyo());
+                cantidadFechas = numeros.nextInt();
+                numeros.nextLine();
+                for (int j = 0; j < cantidadFechas; j++) {
+                    String cadena = numeros.nextLine();
+                    try {
+                        fecha = new Fecha(cadena);
+                        if (persona.getEdadEnFecha( fecha) >= 0) {
+                            System.out.println(persona.getNombre() + " " + persona.getApellidos() + " tendra " + persona.getEdadEnFecha( fecha) + " anyos en fecha " + String.format( "%02d/",fecha.getDia()) +String.format( "%02d/",fecha.getMes()) +String.format("%04d",fecha.getAnyo()));
+
+                        } else {
+                            System.out.println(persona.getNombre() + " " + persona.getApellidos() + " aun no ha nacido a fecha " + String.format( "%02d/",fecha.getDia()) +String.format( "%02d/",fecha.getMes()) +String.format("%04d",fecha.getAnyo()));
+
+                        }
+                    } catch (IllegalArgumentException T) {
+                        System.out.println("ERROR. Procesando siguiente fecha");
+                    }
+                }
             } catch (IllegalArgumentException L) {
                 System.out.println("ERROR. Procesando siguiente persona");
             }
-        }
-        for (int i = 0; i < nombreApellidos; i++) {
-            nombre = numeros.nextLine();
-            apellidos = numeros.nextLine();
-            try {
-                persona = new Persona(nombre, apellidos);
-                fecha = persona.getFechaNacimiento();
 
-                System.out.println("Procesado: " + persona.getNombre() + " " + persona.getApellidos() + ", nacido el null");
-
-            } catch (IllegalArgumentException N) {
-                System.out.println("ERROR. Procesando siguiente persona");
-            }
-        }
-        String cadena = "";
-        boolean correcto = false;
-        while (!correcto) {
-            cadena = numeros.nextLine();
-            try {
-                persona.setFechaNacimiento(cadena);
-                fecha = persona.getFechaNacimiento();
-                System.out.println("Procesado: " + persona.getNombre() + " " + persona.getApellidos() + ", nacido el " + fecha.getDia() + " de " + fecha.getMesNombre() + " de " + fecha.getAnyo());
-
-                correcto = true;
-            } catch (IllegalArgumentException J) {
-                System.out.println("Fecha Incorrecta");
-            }
         }
 
         
@@ -154,6 +148,7 @@ class Persona {
     }
 
 }
+
 class Fecha implements Comparable<Fecha> {
 
     private int dia;
