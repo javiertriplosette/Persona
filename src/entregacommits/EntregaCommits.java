@@ -2,20 +2,21 @@
 package entregacommits;
 
 import java.time.LocalDate;
+import java.util.Objects;
 import java.util.Scanner;
 
 
 public class EntregaCommits {
 
     public static void main(String[] args) {
-   Scanner numeros = new Scanner(System.in);
+  Scanner numeros = new Scanner(System.in);
         int personas = 0;
         String nombre = "javier";
         String apellidos = "Materazzi";
         String fechaNacimiento = "07/02/2001";
         int cantidadFechas = 0;
         Persona persona = new Persona(nombre, apellidos, fechaNacimiento);
-
+        Persona personaAnterior = null;
         Fecha fecha;
 
         personas = numeros.nextInt();
@@ -27,17 +28,20 @@ public class EntregaCommits {
             apellidos = numeros.nextLine();
             fechaNacimiento = numeros.nextLine();
             try {
+
                 persona = new Persona(nombre, apellidos, fechaNacimiento);
-                        
-                        if ( persona.getEdad() >= 0) {
-                            System.out.println(persona.getNombre() + " " + persona.getApellidos() + " tiene " + persona.getEdad() + " anyos a dia de hoy");
+                if (personaAnterior != null) {
+                    if (persona.equals(personaAnterior)) {
+                        System.out.println(persona.toString() + " y " + personaAnterior.toString() + " son la misma");
 
-                        } else {
-                            System.out.println(persona.getNombre() + " " + persona.getApellidos() + "aun no ha nacido a dia de hoy");
+                    } else {
+                        System.out.println(persona.toString() + " y " + personaAnterior.toString() + " son distintas");
 
-                        }
+                    }
                     
-                
+                }
+                personaAnterior = persona;
+
             } catch (IllegalArgumentException L) {
                 System.out.println("ERROR. Procesando siguiente persona");
             }
@@ -132,6 +136,44 @@ class Persona {
         Fecha fecha = new Fecha(fechaHoy.getDayOfMonth(), fechaHoy.getMonthValue(), fechaHoy.getYear());
         int edad = this.getEdadEnFecha(fecha);
         return edad;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 37 * hash + Objects.hashCode(this.nombre);
+        hash = 37 * hash + Objects.hashCode(this.apellidos);
+        hash = 37 * hash + Objects.hashCode(this.fechaNacimiento);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Persona other = (Persona) obj;
+        if (!Objects.equals(this.nombre, other.nombre)) {
+            return false;
+        }
+        if (!Objects.equals(this.apellidos, other.apellidos)) {
+            return false;
+        }
+        if (!Objects.equals(this.fechaNacimiento, other.fechaNacimiento)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Persona{" + "nombre=" + nombre + ", apellidos=" + apellidos + ", fechaNacimiento=Fecha" + '{' + fechaNacimiento.getDiaSemana() + ", " + fechaNacimiento.getDia() + " de " + fechaNacimiento.getMesNombre() + " de " + fechaNacimiento.getAnyo() + "}}";
     }
 
 }
